@@ -1,9 +1,8 @@
 /*
- UC1: Vessel Model
- -----------------
- This class represents a vessel entity.
- It stores basic vessel information such as
- vesselId, vesselName, averageSpeed and vesselType.
+ UC6: OOPS Refactoring
+ --------------------
+ Display responsibility moved to model
+ to improve reusability and readability.
 */
 
 public class Vessel {
@@ -12,9 +11,6 @@ public class Vessel {
     private String vesselName;
     private double averageSpeed;
     private String vesselType;
-
-    public Vessel() {
-    }
 
     public Vessel(String vesselId, String vesselName, double averageSpeed, String vesselType) {
         this.vesselId = vesselId;
@@ -27,15 +23,13 @@ public class Vessel {
         return vesselId;
     }
 
-    public String getVesselName() {
-        return vesselName;
-    }
-
     public double getAverageSpeed() {
         return averageSpeed;
     }
 
-    public String getVesselType() {
-        return vesselType;
+    // Vessel formats its own output
+    public String displayVessel() {
+        return vesselId + " | " + vesselName + " | " +
+                vesselType + " | " + averageSpeed + " knots";
     }
 }

@@ -2,11 +2,15 @@ import java.util.List;
 import java.util.Scanner;
 
 /*
- UC5: User Interface
- -------------------
- This class handles user input and output.
- It allows adding vessels, searching by ID,
- and displaying high performance vessels.
+ UC6: Refactored User Interface
+ ------------------------------
+ This class handles user interaction via console.
+
+ Refactoring Done:
+ ✔ Removed formatting logic from UI
+ ✔ Delegated display responsibility to Vessel class
+ ✔ Improved separation of concerns
+ ✔ Made UI thinner and cleaner
 */
 
 public class UserInterface {
@@ -21,42 +25,41 @@ public class UserInterface {
 
         System.out.println("Enter vessel details");
 
-        // Read and add vessel data
+        // Loop to read vessel input and store objects
         for (int i = 0; i < n; i++) {
             String[] data = sc.nextLine().split(":");
-            Vessel v = new Vessel(
+
+            Vessel vessel = new Vessel(
                     data[0],
                     data[1],
                     Double.parseDouble(data[2]),
                     data[3]
             );
-            util.addVesselPerformance(v);
+
+            util.addVesselPerformance(vessel);
         }
 
         System.out.println("Enter the Vessel Id to check speed");
-        String id = sc.nextLine();
+        String vesselId = sc.nextLine();
 
-        Vessel found = util.getVesselById(id);
+        Vessel found = util.getVesselById(vesselId);
 
         if (found != null) {
-            System.out.println(found.getVesselId() + " | " +
-                    found.getVesselName() + " | " +
-                    found.getVesselType() + " | " +
-                    found.getAverageSpeed() + " knots");
+
+            // ✅ UC6 CHANGE: Model handles display
+            System.out.println(found.displayVessel());
+
         } else {
-            System.out.println("Vessel Id " + id + " not found");
+            System.out.println("Vessel Id " + vesselId + " not found");
         }
 
         System.out.println("High performance vessels are");
 
-        List<Vessel> list = util.getHighPerformanceVessels();
+        List<Vessel> highList = util.getHighPerformanceVessels();
 
-        // Display high performance vessels
-        for (Vessel v : list) {
-            System.out.println(v.getVesselId() + " | " +
-                    v.getVesselName() + " | " +
-                    v.getVesselType() + " | " +
-                    v.getAverageSpeed() + " knots");
+        // Loop to print highest speed vessels
+        for (Vessel vessel : highList) {
+            System.out.println(vessel.displayVessel()); // UC6 change
         }
 
         sc.close();
